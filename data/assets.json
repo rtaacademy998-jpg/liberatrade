@@ -1,0 +1,113 @@
+{
+  "asOf": "2026-07-09T14:32:00+07:00",
+  "_comment": "Per-instrument detail for the asset page (canvas 2a). Fundamentals are illustrative. `analyst` and `peers` are Pro-gated in the UI; the API must gate them too.",
+
+  "default": {
+    "marketStatus": "ตลาดเปิด · ข้อมูลระหว่างวัน",
+    "ranges": ["1D", "1W", "1M", "3M", "YTD", "1Y", "5Y", "MAX"]
+  },
+
+  "assets": {
+    "NVDA": {
+      "symbol": "NVDA",
+      "breadcrumb": ["NASDAQ", "Semiconductors", "NVDA"],
+      "longName": "NVIDIA Corporation",
+      "marketStatus": "ตลาดสหรัฐฯ ปิด · ราคาก่อนเปิดตลาด",
+      "stats": [
+        { "label": "Market Cap", "value": "2.91T" },
+        { "label": "P/E", "value": "48.2" },
+        { "label": "EPS (TTM)", "value": "24.57" },
+        { "label": "กรอบ 52 สัปดาห์", "value": "742 – 1,246" },
+        { "label": "Div Yield", "value": "0.02%" },
+        { "label": "Volume", "value": "38.4M" }
+      ],
+      "analyst": {
+        "recommendation": "ซื้อ",
+        "tone": "up",
+        "target": "1,350",
+        "upside": "+14.0%",
+        "note": "อริสรา ก. · ทบทวนหลังงบทุกไตรมาส"
+      },
+      "aiSummary": "NVDA ฟื้นตัว 1.9% รับข่าวจีนเพิ่มคำสั่งซื้อ H200 ขณะที่กลุ่ม hyperscaler ถูกกดจากความกังวลเรื่อง capex — ตลาดยัง rotate เข้ากลุ่มชิปมากกว่ากลุ่มซอฟต์แวร์",
+      "peers": [
+        { "symbol": "AMD",  "name": "AMD",       "changePct": 2.14 },
+        { "symbol": "AVGO", "name": "Broadcom",  "changePct": 4.80 },
+        { "symbol": "INTC", "name": "Intel",     "changePct": -0.62 },
+        { "symbol": "TSM",  "name": "TSMC",      "changePct": 1.35 }
+      ],
+      "news": [
+        { "headline": "จีนเพิ่มคำสั่งซื้อชิป H200 — NVDA ขยับขึ้นก่อนเปิดตลาด", "source": "Bloomberg · 9 ก.ค." },
+        { "headline": "Broadcom พุ่ง 4.8% รับดีลชิ้นส่วนผลิตในสหรัฐฯ กับ Apple", "source": "Bloomberg · 8 ก.ค." },
+        { "headline": "จังหวะสะสมหุ้น AI Infrastructure หลังงบ Q2", "source": "Libera Analysts · เมื่อวาน" }
+      ]
+    },
+
+    "XAUUSD": {
+      "symbol": "XAUUSD",
+      "breadcrumb": ["COMMODITIES", "Precious Metals", "XAU/USD"],
+      "longName": "Gold Spot",
+      "marketStatus": "ตลาดเปิด · ข้อมูลระหว่างวัน",
+      "stats": [
+        { "label": "เปิด", "value": "4,075.65" },
+        { "label": "สูงสุดวันนี้", "value": "4,106.03" },
+        { "label": "ต่ำสุดวันนี้", "value": "4,053.86" },
+        { "label": "ปิดก่อนหน้า", "value": "4,076.32" },
+        { "label": "กรอบ 52 สัปดาห์", "value": "3,268 – 5,597" },
+        { "label": "YTD", "value": "−4.25%", "tone": "down" }
+      ],
+      "analyst": {
+        "recommendation": "ทยอยสะสม",
+        "tone": "up",
+        "target": "4,400",
+        "upside": "+7.2%",
+        "note": "ศุภกร ว. · ทบทวนทุกวันทำการ"
+      },
+      "aiSummary": "ทองเด้งเหนือ $4,100 หลังรายงาน FOMC ไม่ hawkish อย่างที่กลัว แต่ยังอยู่ใต้เส้นค่าเฉลี่ยหลักทุกเส้น — แรงซื้อธนาคารกลางยังเป็นแนวรับเชิงโครงสร้าง",
+      "analysisSlug": "xauusd",
+      "peers": [
+        { "symbol": "XAGUSD", "name": "Silver",  "changePct": 0.65 },
+        { "symbol": "COPPER", "name": "Copper",  "changePct": 0.41 },
+        { "symbol": "WTI",    "name": "WTI Crude", "changePct": -1.12 }
+      ],
+      "news": [
+        { "headline": "ทองลุ้นปิดบวกรายสัปดาห์ครั้งแรกในรอบเดือน", "source": "CNBC · 3 ก.ค." },
+        { "headline": "ธนาคารกลางเร่งซื้อทอง — และขนทองกลับบ้าน", "source": "CNBC · 17 มิ.ย." },
+        { "headline": "ทองคำครึ่งปีหลัง: ทำไม $3,500 ยังไม่ใช่เพดาน", "source": "Libera Analysts · 6 ชม." }
+      ]
+    },
+
+    "US30": {
+      "symbol": "US30",
+      "breadcrumb": ["INDICES", "US Equities", "US30"],
+      "longName": "Dow Jones Industrial Average",
+      "marketStatus": "Futures · ระหว่างวัน",
+      "stats": [
+        { "label": "ปิดเมื่อวาน", "value": "52,339" },
+        { "label": "เปลี่ยนแปลงเมื่อวาน", "value": "−1.11%", "tone": "down" },
+        { "label": "จุดสูงสุด (2 ก.ค.)", "value": "52,925" },
+        { "label": "ห่างจาก ATH", "value": "−1.11%", "tone": "down" },
+        { "label": "กรอบ 52 สัปดาห์", "value": "41,120 – 52,925" },
+        { "label": "P/E ดัชนี", "value": "26.4" }
+      ],
+      "analyst": {
+        "recommendation": "ถือ / ซื้อเมื่อย่อ",
+        "tone": "up",
+        "target": "53,400",
+        "upside": "+1.8%",
+        "note": "ธนกฤต ศ. · ทบทวนทุกวันทำการ"
+      },
+      "aiSummary": "ดาวโจนส์ร่วง 586 จุดจากความตึงเครียดตะวันออกกลางและถ้อยแถลง Fed ขณะที่เม็ดเงิน rotate เข้ากลุ่มชิป — โครงสร้างเริ่มมี bearish divergence",
+      "analysisSlug": "us30",
+      "peers": [
+        { "symbol": "SPX",  "name": "S&P 500", "changePct": 0.32 },
+        { "symbol": "NDX",  "name": "NASDAQ",  "changePct": 0.61 },
+        { "symbol": "NIKKEI", "name": "Nikkei 225", "changePct": -0.45 }
+      ],
+      "news": [
+        { "headline": "ดาวโจนส์ปิดร่วง 586 จุด หลังความตึงเครียดตะวันออกกลางปะทุใหม่", "source": "Reuters · 8 ก.ค." },
+        { "headline": "รายงานประชุม FOMC: เสียงส่วนใหญ่ยังไม่รีบขยับดอกเบี้ย", "source": "Reuters · 8 ก.ค." },
+        { "headline": "CPI คืนนี้คือจุดชี้ขาด", "source": "Libera Analysts · 3 ชม." }
+      ]
+    }
+  }
+}

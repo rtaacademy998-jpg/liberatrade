@@ -1,0 +1,144 @@
+{
+  "asOf": "2026-07-09T14:32:00+07:00",
+
+  "_comment": "Analyst calls, economic calendar, realtime alerts and the model portfolio. Every block here is entitlement-gated — the API must filter by tier, the mask in the UI is presentation only.",
+
+  "calls": {
+    "requiredTier": "exclusive",
+    "reviewNote": "ทบทวนทุกวันทำการ · ทีมนักกลยุทธ์ Libera",
+    "items": [
+      { "symbol": "NVDA",   "name": "NVIDIA",     "action": "ซื้อ",         "tone": "up",   "entry": "1,140–1,185", "target": "1,350", "stop": "1,062", "weight": "≤ 8%" },
+      { "symbol": "XAUUSD", "name": "ทองคำ",      "action": "ทยอยสะสม",    "tone": "up",   "entry": "4,050–4,100", "target": "4,400", "stop": "3,940", "weight": "≤ 10%" },
+      { "symbol": "WTI",    "name": "น้ำมัน WTI", "action": "ขาย",          "tone": "down", "entry": "69.50–70.80", "target": "62.00", "stop": "72.40", "weight": "≤ 5%" },
+      { "symbol": "US30",   "name": "ดาวโจนส์",   "action": "ถือ / ซื้อเมื่อย่อ", "tone": "up", "entry": "52,350–52,500", "target": "53,400", "stop": "51,950", "weight": "≤ 15%" },
+      { "symbol": "EURUSD", "name": "EUR/USD",   "action": "รอสัญญาณ",     "tone": "flat", "entry": "—",           "target": "1.1950", "stop": "1.1610", "weight": "—" }
+    ]
+  },
+
+  "teaser": [
+    { "symbol": "NVDA",   "text": "ซื้อ · TP 1,350",        "tone": "up" },
+    { "symbol": "GOLD",   "text": "ทยอยสะสม · TP 4,400",   "tone": "up" },
+    { "symbol": "WTI",    "text": "ขาย · TP 62.00",         "tone": "down" }
+  ],
+
+  "calendar": [
+    { "flag": "🇺🇸", "title": "US CPI (YoY)", "when": "วันนี้ 19:30 น.",   "note": "คาด 2.6% · ผลกระทบสูง",  "impact": "high" },
+    { "flag": "🇹🇭", "title": "กนง. แถลงผลประชุม", "when": "พรุ่งนี้ 14:00 น.", "note": "คาด 1.50% · ผลกระทบสูง", "impact": "high" },
+    { "flag": "🇪🇺", "title": "ECB Minutes",    "when": "พรุ่งนี้ 18:30 น.", "note": "ผลกระทบกลาง",             "impact": "medium" },
+    { "flag": "🇺🇸", "title": "Fed ตัดสินดอกเบี้ย", "when": "29 ก.ค.",      "note": "ตลาดให้ ~75% คงที่ 3.50–3.75%", "impact": "high" }
+  ],
+
+  "alerts": {
+    "requiredTier": "pro",
+    "items": [
+      { "time": "14:28", "category": "FOREX",       "text": "USD/THB หลุด 32.45 — เข้าโซนเฝ้าระวังที่เราตั้งไว้", "tone": "down" },
+      { "time": "13:52", "category": "COMMODITIES", "text": "ทองคำยืนเหนือ 4,100 ได้ต่อเนื่อง 2 ชั่วโมง",        "tone": "up" },
+      { "time": "13:10", "category": "EQUITIES",    "text": "NVDA เปิดบวก 1.9% รับข่าวคำสั่งซื้อ H200 จากจีน",   "tone": "up" },
+      { "time": "11:45", "category": "MACRO",       "text": "โอกาสลดดอกเบี้ย ก.ย. ลดลงเหลือ 78% จาก 82%",       "tone": "flat" }
+    ],
+    "exclusiveItems": [
+      { "time": "14:31", "category": "CALL TRIGGER", "text": "ทองคำเข้าโซนสะสม 4,050–4,100 ตามคำแนะนำ Exclusive", "tone": "up" },
+      { "time": "12:04", "category": "CALL TRIGGER", "text": "WTI แตะโซนเปิด short 69.50–70.80",                   "tone": "down" }
+    ]
+  },
+
+  "portfolio": {
+    "requiredTier": "exclusive",
+    "holdings": [
+      { "symbol": "NVDA",   "name": "NVIDIA",      "weight": 18 },
+      { "symbol": "XAUUSD", "name": "ทองคำ",       "weight": 10 },
+      { "symbol": "SPX",    "name": "S&P 500 ETF", "weight": 32 },
+      { "symbol": "US30",   "name": "ดาวโจนส์",    "weight": 15 },
+      { "symbol": "CASH",   "name": "เงินสด",      "weight": 25 }
+    ],
+    "stats": [
+      { "label": "YTD",            "value": "+14.2%", "tone": "up" },
+      { "label": "vs. Benchmark",  "value": "+3.8%",  "tone": "up" },
+      { "label": "Max drawdown",   "value": "−6.1%",  "tone": "down" }
+    ]
+  },
+
+  "liveQA": {
+    "requiredTier": "exclusive",
+    "kicker": "EXCLUSIVE · LIVE Q&A",
+    "title": "ถามทีมนักกลยุทธ์สด",
+    "text": "ทุกวันพฤหัสบดี 20:00 น. — ถามตรงกับหัวหน้านักกลยุทธ์ พร้อมรีเพลย์ย้อนหลังทุกครั้ง",
+    "cta": "เข้าร่วมรอบถัดไป · พฤ. 20:00 น."
+  },
+
+  "aiBrief": {
+    "requiredTier": "free",
+    "kicker": "✦ AI DAILY BRIEF · FREE",
+    "text": "สรุปเช้านี้: หุ้นเทคฯ นำตลาด, น้ำมันอ่อนตัวจากสต็อกเกินคาด, เงินบาทแข็งค่า — ปัจจัยชี้ขาดคือ US CPI คืนนี้ 19:30 น.",
+    "cta": "ฟังสรุปเสียง 2 นาที →"
+  },
+
+  "plans": [
+    {
+      "id": "free",
+      "kicker": "FREE",
+      "name": "Free",
+      "priceMonthly": 0,
+      "pitch": "เริ่มต้นติดตามตลาดโลกและอ่านบทวิเคราะห์พื้นฐาน",
+      "cta": "เริ่มใช้ฟรี",
+      "ctaStyle": "outline",
+      "features": [
+        { "yes": true,  "text": "ราคาตลาดทุกสินทรัพย์ (ล่าช้า 15 นาที)" },
+        { "yes": true,  "text": "AI Daily Brief ทุกเช้า" },
+        { "yes": true,  "text": "บทวิเคราะห์หมวด Forex" },
+        { "yes": true,  "text": "Watchlist 1 รายการ" },
+        { "yes": false, "text": "บทวิเคราะห์ Commodities / Crypto / หุ้น" },
+        { "yes": false, "text": "แจ้งเตือนเรียลไทม์" },
+        { "yes": false, "text": "คำแนะนำรายสินทรัพย์" },
+        { "yes": false, "text": "Model Portfolio + Live Q&A" }
+      ]
+    },
+    {
+      "id": "pro",
+      "kicker": "PRO",
+      "name": "Pro",
+      "priceMonthly": 189,
+      "popular": true,
+      "ribbon": "ยอดนิยม · POPULAR",
+      "pitch": "สำหรับเทรดเดอร์ที่ต้องการบทวิเคราะห์ครบทุกสินทรัพย์",
+      "cta": "สมัคร Pro",
+      "ctaStyle": "fill",
+      "features": [
+        { "yes": true,  "text": "ทุกอย่างในแพ็คเกจ Free" },
+        { "yes": true,  "text": "บทวิเคราะห์เชิงลึกครบทุกหมวด" },
+        { "yes": true,  "text": "Watchlist ไม่จำกัด" },
+        { "yes": true,  "text": "แจ้งเตือนเรียลไทม์" },
+        { "yes": true,  "text": "ระดับราคาสำคัญ + อินดิเคเตอร์" },
+        { "yes": true,  "text": "ปฏิทินเศรษฐกิจแบบเต็ม" },
+        { "yes": false, "text": "คำแนะนำรายสินทรัพย์ + โซนเข้า/TP/SL" },
+        { "yes": false, "text": "Model Portfolio + Live Q&A" }
+      ]
+    },
+    {
+      "id": "exclusive",
+      "kicker": "EXCLUSIVE",
+      "name": "Exclusive",
+      "priceMonthly": 369,
+      "pitch": "เข้าถึงคำแนะนำและพอร์ตจำลองของทีมนักกลยุทธ์",
+      "cta": "สมัคร Exclusive",
+      "ctaStyle": "accent",
+      "features": [
+        { "yes": true, "text": "ทุกอย่างในแพ็คเกจ Pro" },
+        { "yes": true, "text": "คำแนะนำรายสินทรัพย์ + โซนเข้า / TP / SL" },
+        { "yes": true, "text": "ราคาเรียลไทม์ ไม่หน่วง" },
+        { "yes": true, "text": "Model Portfolio พร้อมสัดส่วนพอร์ต" },
+        { "yes": true, "text": "แจ้งเตือนเมื่อคำแนะนำถูกทริกเกอร์" },
+        { "yes": true, "text": "Live Q&A กับนักกลยุทธ์ทุกสัปดาห์" },
+        { "yes": true, "text": "รายงานสรุปกลยุทธ์รายเดือน" },
+        { "yes": true, "text": "ช่องทางติดต่อทีมงานโดยตรง" }
+      ]
+    }
+  ],
+
+  "pricingNote": "ราคาไม่รวม VAT · ชำระผ่านบัตรเครดิต / PromptPay · การวิเคราะห์ทั้งหมดเป็นความเห็น ไม่ใช่คำชี้ชวนการลงทุน",
+  "yearlyDiscount": 0.2,
+
+  "watchlistDefault": ["EURUSD", "USDTHB"],
+
+  "disclaimer": "การวิเคราะห์ทั้งหมดเป็นความเห็น ไม่ใช่คำชี้ชวนการลงทุน"
+}

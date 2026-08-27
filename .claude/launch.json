@@ -1,0 +1,15 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "libera-analysts",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "serve.py",
+        "8080",
+        "--no-open"
+      ],
+      "port": 8080
+    }
+  ]
+}

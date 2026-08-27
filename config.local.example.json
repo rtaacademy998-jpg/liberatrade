@@ -1,0 +1,4 @@
+{
+  "_comment": "Copy this file to config.local.json and paste your key. config.local.json is git-ignored.",
+  "alphavantageKey": "PASTE_YOUR_KEY_HERE"
+}

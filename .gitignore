@@ -1,0 +1,16 @@
+# Local API keys — never commit
+config.local.json
+
+# Fetcher scratch
+data/*.tmp
+
+# Scratch / local-only
+*.tmp
+.DS_Store
+Thumbs.db
+
+# The old trading dashboard and the design handoff are local references,
+# not part of the deployed site. Remove these two lines if you want them
+# published too.
+trading-dashboard/
+design_handoff_libera_analysts/

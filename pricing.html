@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>แพ็คเกจสมาชิก — Libera Analysts</title>
+<meta name="description" content="เลือกแพ็คเกจที่เหมาะกับคุณ — Free, Pro $189/เดือน หรือ Exclusive $369/เดือน พร้อมคำแนะนำรายสินทรัพย์และ Model Portfolio">
+<meta name="color-scheme" content="light dark">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23faf8f2'/><text x='16' y='23' font-family='Georgia,serif' font-size='22' font-weight='700' text-anchor='middle' fill='%23a4441f'>L</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Trirong:wght@500;600;700&display=swap">
+
+<link rel="stylesheet" href="./assets/css/tokens.css">
+<link rel="stylesheet" href="./assets/css/base.css">
+<link rel="stylesheet" href="./assets/css/layout.css">
+<link rel="stylesheet" href="./assets/css/components.css">
+
+<script>
+  try {
+    var t = localStorage.getItem('libera-theme');
+    if (t) document.documentElement.dataset.theme = t;
+  } catch (e) {}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">ข้ามไปยังเนื้อหาหลัก</a>
+
+<div class="page page--pricing">
+  <header id="chrome-top"></header>
+
+  <main id="main">
+    <div id="pricing-head"></div>
+    <div style="padding:24px var(--page-pad) 40px">
+      <div class="plans" id="plans"><p class="mut">กำลังโหลดแพ็คเกจ…</p></div>
+      <p class="disclaimer" id="pricing-note" style="text-align:center;margin:22px auto 0;max-width:720px"></p>
+    </div>
+  </main>
+
+  <div id="chrome-bottom"></div>
+</div>
+
+<script type="module" src="./assets/js/pricing.js"></script>
+</body>
+</html>

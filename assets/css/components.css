@@ -1,0 +1,374 @@
+/* ==========================================================================
+   Libera Analysts — components
+   ========================================================================== */
+
+/* ------------------------------------------------------------ lead story -- */
+
+.lead__headline {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 1.35;
+  margin: 10px 0 12px;
+}
+.lead__byline { font-size: 13px; color: var(--ink-muted); margin-bottom: 16px; }
+.lead__media { width: 100%; height: 340px; }
+
+/* --------------------------------------------------------- analysis cards -- */
+
+.cardgrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 14px;
+}
+@media (max-width: 900px) { .cardgrid { grid-template-columns: 1fr; gap: 18px; } }
+
+.acard { display: flex; flex-direction: column; gap: 8px; }
+.acard__media { height: 120px; }
+.acard__headline { font-family: var(--font-serif); font-weight: 600; font-size: 16px; line-height: 1.35; }
+.acard:hover .acard__headline { color: var(--accent); }
+.acard__meta { font-size: 12px; color: var(--ink-muted); }
+
+/* Mobile list variant: 92×68 thumbnail beside the text. */
+.acard--row { flex-direction: row; gap: 12px; align-items: flex-start; }
+.acard--row .acard__media { width: 92px; height: 68px; flex: none; }
+
+/* ------------------------------------------------------------- markets --- */
+
+.markets-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+@media (max-width: 900px) { .markets-grid { grid-template-columns: 1fr 1fr; } }
+
+.markets-grid__head {
+  font-size: 12px; font-weight: 600;
+  color: var(--ink-muted);
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 5px;
+}
+
+/* --------------------------------------------------------- stat strip ---- */
+
+/* 5–6 cells in one bordered box, split by hairlines. */
+.stat-strip {
+  display: grid;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.stat-strip__cell {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 12px 16px;
+  border-right: 1px solid var(--border-soft);
+  min-width: 0;
+}
+.stat-strip__cell:last-child { border-right: 0; }
+.stat-strip__label { font-size: 11px; color: var(--ink-muted); }
+.stat-strip__value {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: 15px; font-weight: 600;
+}
+@media (max-width: 900px) {
+  .stat-strip { grid-template-columns: 1fr 1fr !important; }
+  .stat-strip__cell:nth-child(2n) { border-right: 0; }
+  .stat-strip__cell { border-bottom: 1px solid var(--border-soft); }
+}
+
+/* ------------------------------------------------------ range selector --- */
+
+.range { display: flex; gap: 2px; flex-wrap: wrap; }
+.range button {
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--ink-muted);
+  border-radius: var(--radius);
+}
+.range button:hover { color: var(--ink); }
+.range button[aria-pressed="true"] {
+  background: var(--ink); color: var(--ink-on-dark); font-weight: 600;
+}
+
+/* --------------------------------------------------------------- chart --- */
+
+.chart { position: relative; width: 100%; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* 64×20 dashboard sparkline: 1.5px stroke, no fill, no axis chrome. */
+.spark { width: 64px; height: 20px; flex: none; }
+.spark polyline { fill: none; stroke-width: 1.5; }
+.spark--up polyline { stroke: var(--up); }
+.spark--down polyline { stroke: var(--down); }
+
+/* --------------------------------------------------- instrument header --- */
+
+.breadcrumb {
+  font-size: 12px; color: var(--ink-muted);
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.breadcrumb a { color: var(--ink-muted); }
+.breadcrumb a:hover { color: var(--accent); }
+
+.instrument {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+  margin: 8px 0 4px;
+}
+.instrument__name {
+  font-family: var(--font-serif); font-weight: 700;
+  font-size: 30px; line-height: 1.25;
+}
+.instrument__actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.quote { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.quote__last {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: 36px; font-weight: 700; line-height: 1.1;
+}
+.quote__change {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: 16px; font-weight: 600;
+}
+.quote__note { font-size: 12px; color: var(--ink-muted); }
+
+/* -------------------------------------------------------- scenario box --- */
+
+.scenario {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 24px 0;
+  max-width: var(--body-w);
+}
+.scenario__head {
+  font-size: 11px; font-weight: 700; letter-spacing: .11em;
+  color: var(--ink-muted);
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.scenario__cells { display: grid; grid-template-columns: 1fr 1fr; }
+.scenario__cell { padding: 14px 16px; border-right: 1px solid var(--border-soft); }
+.scenario__cell:last-child { border-right: 0; }
+.scenario__title { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.scenario__title--base { color: var(--up); }
+.scenario__title--alt  { color: var(--down); }
+.scenario__row {
+  display: flex; justify-content: space-between; gap: 12px;
+  font-size: 12.5px; padding: 3px 0;
+}
+.scenario__row b { font-family: var(--font-mono); font-weight: 600; }
+@media (max-width: 600px) {
+  .scenario__cells { grid-template-columns: 1fr; }
+  .scenario__cell { border-right: 0; border-bottom: 1px solid var(--border-soft); }
+}
+
+/* ----------------------------------------------------------- key levels -- */
+
+.levels .srow { font-family: var(--font-mono); font-size: 12.5px; }
+/* The current-price row breaks the gutter so it reads as a band. */
+.levels .is-current {
+  background: var(--bg-sunken);
+  margin: 0 -8px;
+  padding-left: 8px; padding-right: 8px;
+  font-weight: 700;
+}
+
+/* -------------------------------------------------------- analyst call --- */
+
+.call__rows { margin-top: 10px; }
+.call__row {
+  display: flex; justify-content: space-between; gap: 12px;
+  font-size: 13px; padding: 5px 0;
+  border-bottom: 1px solid var(--border-softer);
+}
+.call__row:last-child { border-bottom: 0; }
+.call__row b { font-family: var(--font-mono); font-weight: 700; }
+
+/* Exclusive: the full 5-column call table inside a double frame. */
+.calls-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.calls-table th {
+  font-size: 11px; font-weight: 700; letter-spacing: .06em;
+  color: var(--ink-muted); text-align: right;
+  padding: 6px 8px; border-bottom: 1px solid var(--border-soft);
+}
+.calls-table th:first-child, .calls-table td:first-child { text-align: left; }
+.calls-table td {
+  padding: 7px 8px; text-align: right;
+  border-bottom: 1px solid var(--border-softer);
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+}
+.calls-table tr:last-child td { border-bottom: 0; }
+.calls-table td:first-child { font-family: var(--font-sans); font-weight: 600; }
+
+/* -------------------------------------------------------------- alerts --- */
+
+.alerts__item {
+  display: flex; gap: 8px; align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-softer);
+  font-size: 12.5px;
+}
+.alerts__item:last-child { border-bottom: 0; }
+.alerts__time {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--ink-muted); flex: none;
+}
+
+/* --------------------------------------------------------- newsletter ---- */
+
+.newsletter { background: var(--bg-sunken); padding: 16px 18px; }
+.newsletter input {
+  width: 100%; padding: 9px 12px; margin-top: 10px;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--surface); color: var(--ink);
+  font: inherit; font-size: 13px;
+}
+.newsletter input::placeholder { color: var(--ink-muted); }
+
+/* ------------------------------------------------------------- article --- */
+
+.article__headline {
+  font-family: var(--font-serif); font-weight: 600;
+  font-size: 38px; line-height: 1.35;
+  margin: 10px 0 16px;
+}
+.article__byline {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding-bottom: 18px; border-bottom: 1px solid var(--border);
+}
+.article__byline-text { display: flex; flex-direction: column; gap: 1px; margin-right: auto; }
+.article__author { font-size: 13.5px; font-weight: 600; }
+.article__hero { height: 380px; margin: 20px 0; }
+.article__tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+
+/* ------------------------------------------------------------- pricing --- */
+
+.plans { display: flex; gap: 24px; align-items: stretch; }
+@media (max-width: 900px) { .plans { flex-direction: column; } }
+
+.plan {
+  flex: 1;
+  display: flex; flex-direction: column;
+  padding: 26px 26px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  position: relative;
+}
+.plan--hot { border: 3px double var(--ink); background: var(--bg-raised); }
+
+.plan__ribbon {
+  position: absolute; top: -12px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent); color: var(--accent-ink);
+  font-size: 11px; font-weight: 700; letter-spacing: .1em;
+  padding: 4px 14px; white-space: nowrap;
+}
+.plan__price {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: 38px; font-weight: 700; line-height: 1.1;
+  margin: 8px 0 2px;
+}
+.plan__price small { font-family: var(--font-sans); font-size: 14px; font-weight: 400; color: var(--ink-muted); }
+.plan__pitch { font-size: 13px; color: var(--ink-muted); margin-bottom: 14px; }
+.plan__spacer { flex: 1; }
+
+.feat {
+  display: flex; gap: 10px; align-items: baseline;
+  padding: 7px 0;
+  font-size: 13.5px;
+  border-bottom: 1px solid var(--border-softer);
+}
+.feat__mark { font-weight: 700; flex: none; }
+.feat--yes .feat__mark { color: var(--up); }
+.feat--no  .feat__mark { color: var(--ink-faint); }
+.feat--no  { color: var(--ink-muted); }
+
+.billing-toggle { display: inline-flex; gap: 8px; margin-top: 16px; }
+.billing-toggle button {
+  padding: 7px 18px; border-radius: var(--radius-pill);
+  border: 1px solid var(--ink);
+  font-size: 13px; font-weight: 600;
+}
+.billing-toggle button[aria-pressed="true"] { background: var(--ink); color: var(--ink-on-dark); }
+.billing-toggle .discount { color: var(--accent); font-weight: 700; }
+.billing-toggle button[aria-pressed="true"] .discount { color: var(--gold); }
+
+.pricing-head { text-align: center; padding: 32px var(--page-pad) 8px; }
+.pricing-head__title {
+  font-family: var(--font-serif); font-weight: 600;
+  font-size: 36px; line-height: 1.3; margin: 10px 0 8px;
+}
+
+/* ------------------------------------------------------------- paywall --- */
+
+.paywall {
+  border: 3px double var(--ink);
+  background: var(--bg-raised);
+  text-align: center;
+  padding: 28px 40px;
+  margin-top: 8px;
+  max-width: var(--body-w);
+}
+.paywall__title {
+  font-family: var(--font-serif); font-weight: 600;
+  font-size: 24px; line-height: 1.35;
+}
+.paywall__copy {
+  max-width: 420px; margin: 10px auto 18px;
+  font-size: 13.5px; line-height: 1.75; color: var(--ink-muted);
+}
+.paywall__ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+@media (max-width: 600px) { .paywall { padding: 22px 18px; } }
+
+/* ------------------------------------------------------ model portfolio -- */
+
+.portfolio-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--border-soft);
+  border: 1px solid var(--border-soft);
+  margin-top: 10px;
+}
+.portfolio-stats > div {
+  background: var(--bg-sunken);
+  padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.portfolio-stats dt { font-size: 10.5px; color: var(--ink-muted); }
+.portfolio-stats dd {
+  margin: 0;
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: 14px; font-weight: 700;
+}
+
+/* Live Q&A card — ink ground with the gold CTA. Exclusive only. */
+.qa-card {
+  background: var(--ink); color: var(--ink-on-dark);
+  padding: 16px 18px;
+}
+.qa-card .kicker { color: var(--gold); }
+.qa-card p { font-size: 13px; line-height: 1.7; margin: 8px 0 12px; opacity: .85; }
+
+/* --------------------------------------------------------- disclaimers --- */
+
+.disclaimer {
+  font-size: 11px; color: var(--ink-muted);
+  line-height: 1.7;
+  margin-top: 20px;
+  max-width: var(--body-w);
+}
+
+/* ---------------------------------------------------------- loading ------ */
+
+/* Skeleton rows match final row heights — the layout never collapses. */
+.skeleton {
+  background: linear-gradient(90deg, var(--border-softer), var(--bg-sunken), var(--border-softer));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: var(--radius);
+  height: 13px;
+}
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* On error we keep the last good price and mark it delayed, never blank it. */
+.is-stale { opacity: .7; }

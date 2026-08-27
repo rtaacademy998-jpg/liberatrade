@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Libera Analysts — design tokens
+
+   Two themes over one component tree:
+     · Editorial (light)  — the primary direction. Warm newsprint ground.
+     · Terminal  (dark)   — option 1a from the canvas, kept as the dark mode.
+
+   Dark values are declared under BOTH the OS media query and the
+   [data-theme="dark"] scope so the in-page toggle wins in either direction.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* -- ground ------------------------------------------------------------ */
+  --bg:            #faf8f2;   /* page — warm off-white newsprint */
+  --bg-sunken:     #f4f1e8;   /* ticker strip, stat blocks, footer */
+  --bg-raised:     #fffdf7;   /* double-border boxes: analyst call, upsell */
+  --surface:       #ffffff;   /* cards, inputs */
+
+  /* -- ink --------------------------------------------------------------- */
+  --ink:           #16150f;   /* primary text, primary buttons, rules */
+  --ink-muted:     #8a8574;   /* secondary text, labels, timestamps */
+  --ink-faint:     #c9c2af;   /* disabled / unavailable feature marks */
+  --ink-on-dark:   #faf8f2;   /* text on an ink-filled ground */
+
+  /* -- lines ------------------------------------------------------------- */
+  --border:        #dcd6c6;   /* primary hairlines, masthead rules */
+  --border-soft:   #e7e2d4;   /* table row dividers, stat dividers */
+  --border-softer: #efeadd;   /* feature-list dividers inside cards */
+
+  /* -- meaning ----------------------------------------------------------- */
+  --accent:        #a4441f;   /* kickers, active nav, Exclusive, links of consequence */
+  --accent-ink:    #ffffff;   /* text on an accent-filled ground */
+  --up:            #0a7d4f;   /* positive change, Buy calls, support levels */
+  --down:          #b3352c;   /* negative change, Sell calls, resistance levels */
+  --gold:          #d4a72c;   /* Exclusive Live Q&A CTA on dark ground */
+
+  /* placeholder hatch — every .ph block is a slot for real art */
+  --ph-a:          #e8e4da;
+  --ph-b:          #efece4;
+  --ph-ink:        #9a917f;
+
+  /* -- type -------------------------------------------------------------- */
+  --font-sans:  'IBM Plex Sans Thai', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Trirong', Georgia, 'Times New Roman', serif;
+  --font-mono:  'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+
+  /* -- shape ------------------------------------------------------------- */
+  --radius:      3px;    /* buttons, inputs, stat blocks, chips */
+  --radius-pill: 20px;   /* pills, badges, tags */
+  --radius-panel: 3px;   /* Terminal raises this to 6px */
+
+  /* -- measure ----------------------------------------------------------- */
+  --page-w:      1440px;
+  --page-pad:    28px;
+  --read-w:      1100px;   /* article-reading layout */
+  --body-w:      660px;    /* body copy max-width */
+  --sidebar-w:   380px;
+  --sidebar-w-lg: 400px;   /* asset & analysis pages */
+  --col-gap:     32px;
+
+  /* Depth comes from rules and background tints — no shadows anywhere. */
+  --shadow: none;
+}
+
+/* -------------------------------------------------------- Terminal dark -- */
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+
+    --bg:            #0c0f16;
+    --bg-sunken:     #0a0d13;
+    --bg-raised:     #121722;
+    --surface:       #121722;
+
+    --ink:           #e8ecf4;
+    --ink-muted:     #7d8798;
+    --ink-faint:     #4a5464;
+    --ink-on-dark:   #0c0f16;
+
+    --border:        #1f2734;
+    --border-soft:   #181f2b;
+    --border-softer: #161c26;
+
+    --accent:        #d4a72c;   /* Terminal's accent is the gold */
+    --accent-ink:    #0c0f16;
+    --up:            #00d26a;
+    --down:          #ff4d5e;
+    --gold:          #d4a72c;
+
+    --ph-a:          #161c26;
+    --ph-b:          #1b2230;
+    --ph-ink:        #566072;
+
+    --radius-panel:  6px;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg:            #0c0f16;
+  --bg-sunken:     #0a0d13;
+  --bg-raised:     #121722;
+  --surface:       #121722;
+
+  --ink:           #e8ecf4;
+  --ink-muted:     #7d8798;
+  --ink-faint:     #4a5464;
+  --ink-on-dark:   #0c0f16;
+
+  --border:        #1f2734;
+  --border-soft:   #181f2b;
+  --border-softer: #161c26;
+
+  --accent:        #d4a72c;
+  --accent-ink:    #0c0f16;
+  --up:            #00d26a;
+  --down:          #ff4d5e;
+  --gold:          #d4a72c;
+
+  --ph-a:          #161c26;
+  --ph-b:          #1b2230;
+  --ph-ink:        #566072;
+
+  --radius-panel:  6px;
+}

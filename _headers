@@ -1,0 +1,21 @@
+# Cloudflare Pages header rules.
+
+# The quote files must never be cached: they are rewritten every 5 minutes,
+# and a cached copy would freeze the whole site's prices for everyone.
+/data/*
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# HTML is cheap to revalidate and changes with every deploy.
+/*.html
+  Cache-Control: no-cache
+
+# Fingerprint-free assets: let the browser reuse them, but revalidate.
+/assets/*
+  Cache-Control: public, max-age=300, must-revalidate
+
+# Basic hardening. No frame embedding, no MIME sniffing, no referrer leak.
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()

@@ -1,0 +1,54 @@
+name: Update market quotes
+
+# Every 5 minutes. GitHub's scheduler is best-effort — under load a run can
+# start late (sometimes 10-15 min), so treat 5 minutes as the target, not a
+# guarantee. The page always shows its own "last updated" stamp, so a late
+# run is visible rather than silently stale.
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:        # lets you trigger a refresh by hand
+
+# Only one refresh at a time; a slow run must not stack up behind the next.
+concurrency:
+  group: update-quotes
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # No dependencies and no API key: the fetcher is stdlib-only and both
+      # feeds are keyless.
+      - name: Fetch quotes
+        run: python -u tools/fetch_quotes.py --once
+
+      - name: Commit if the data changed
+        run: |
+          git config user.name  "libera-bot"
+          git config user.email "bot@users.noreply.github.com"
+
+          # Nothing moved (markets closed, or an identical snapshot)? Then do
+          # not create an empty commit — it would redeploy for no reason.
+          if git diff --quiet -- data/; then
+            echo "no change - skipping commit"
+            exit 0
+          fi
+
+          git add data/quotes.json data/series.json
+          git commit -m "data: quotes $(date -u '+%Y-%m-%d %H:%M') UTC"
+
+          # Another run may have landed while this one was fetching.
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

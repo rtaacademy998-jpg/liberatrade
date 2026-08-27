@@ -1,0 +1,298 @@
+/* ==========================================================================
+   Libera Analysts — page chrome & layout
+   Utility bar · masthead · nav · ticker tape · page grid · footer
+   ========================================================================== */
+
+.page {
+  max-width: var(--page-w);
+  margin: 0 auto;
+  background: var(--bg);
+}
+
+/* --------------------------------------------------------- utility bar -- */
+
+.utility {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  padding: 10px var(--page-pad);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.utility__right { display: flex; align-items: center; gap: 12px; }
+
+/* Realtime dot — Exclusive only; Free/Pro see the delayed note instead. */
+.realtime {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--up); font-weight: 600;
+}
+.realtime::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: currentColor;
+}
+
+.icon-btn {
+  display: inline-grid; place-items: center;
+  width: 30px; height: 30px; flex: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--ink);
+  transition: background .12s ease, color .12s ease;
+}
+.icon-btn:hover { background: var(--ink); color: var(--ink-on-dark); }
+.icon-btn svg { display: block; }
+
+/* ------------------------------------------------------------ masthead -- */
+
+.masthead {
+  text-align: center;
+  padding: 22px 0 14px;
+}
+.masthead__word {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 44px;
+  letter-spacing: .02em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.masthead__word span { color: var(--accent); }
+.masthead__sub {
+  font-size: 12px;
+  letter-spacing: .28em;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+/* ----------------------------------------------------------------- nav -- */
+
+.mainnav {
+  display: flex; align-items: center; justify-content: center;
+  gap: 28px;
+  height: 38px;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px; font-weight: 600;
+}
+.mainnav a { color: var(--ink); white-space: nowrap; }
+.mainnav a:hover { color: var(--accent); }
+.mainnav a.is-accent { color: var(--accent); }
+.mainnav a.is-accent:hover { color: var(--ink); }
+.mainnav a[aria-current="page"] { color: var(--accent); }
+
+/* The hamburger row only exists below the mobile breakpoint. */
+.nav-wrap { display: none; }
+.nav-toggle { display: none; }
+
+/* Freshness stamp — when prices last reloaded, and a manual refresh. */
+.freshness {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+.freshness:hover { color: var(--ink); border-color: var(--ink-muted); }
+.freshness__time { font-family: var(--font-mono); color: var(--ink); }
+
+.freshness__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--up); flex: none;
+}
+.freshness[data-busy="true"] .freshness__dot { animation: pulse-dot 1s ease-in-out infinite; }
+.freshness[data-stale="true"] .freshness__dot { background: var(--down); }
+.freshness[data-stale="true"] .freshness__time { color: var(--down); }
+
+@keyframes pulse-dot { 50% { opacity: .25; } }
+
+@media (max-width: 720px) { .freshness { display: none; } }
+
+/* Membership preview switch — a review affordance, not production UI. */
+.select-tier {
+  padding: 4px 8px;
+  font: inherit; font-size: 11.5px;
+  color: var(--ink-muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.select-tier:hover { color: var(--ink); border-color: var(--ink-muted); }
+
+/* Compact inline header used on the analysis pages (.ihd in the canvas) */
+.inline-header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
+  padding: 12px var(--page-pad);
+  border-bottom: 2px solid var(--ink);
+}
+.inline-header__word {
+  font-family: var(--font-serif); font-weight: 700; font-size: 20px;
+}
+.inline-header__word span { color: var(--accent); }
+.inline-header nav {
+  display: flex; gap: 20px;
+  font-size: 13px; font-weight: 600;
+}
+
+/* --------------------------------------------------------- ticker tape -- */
+
+.ticker {
+  height: 34px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-sunken);
+  overflow: hidden;
+  position: relative;
+}
+.ticker__track {
+  display: flex; align-items: center;
+  height: 100%;
+  width: max-content;
+  animation: ticker-scroll 60s linear infinite;
+}
+.ticker:hover .ticker__track,
+.ticker:focus-within .ticker__track { animation-play-state: paused; }
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }   /* the track holds two copies */
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker__track { animation: none; }
+  .ticker { overflow-x: auto; }
+}
+
+.ticker__item {
+  display: flex; align-items: baseline; gap: 6px;
+  padding: 0 16px;
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.ticker__sym { color: var(--ink-muted); }
+.ticker__last { font-weight: 600; }
+
+/* Brief tint on tick, then decay. Suppressed under reduced-motion. */
+.tick-flash { animation: tick-flash .9s ease-out; }
+.tick-flash--up   { --flash: color-mix(in srgb, var(--up) 22%, transparent); }
+.tick-flash--down { --flash: color-mix(in srgb, var(--down) 22%, transparent); }
+@keyframes tick-flash {
+  from { background: var(--flash); }
+  to   { background: transparent; }
+}
+
+/* ----------------------------------------------------------- page grid -- */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr var(--sidebar-w);
+  column-gap: var(--col-gap);
+  padding: 28px var(--page-pad);
+  align-items: start;
+}
+.layout--lg-sidebar { grid-template-columns: 1fr var(--sidebar-w-lg); }
+
+/* The main column carries the divider rule on its right edge. */
+.layout__main {
+  border-right: 1px solid var(--border);
+  padding-right: var(--col-gap);
+  min-width: 0;
+}
+.layout__side { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+/* Article-reading layout: narrower page, narrower sidebar */
+.page--read { max-width: var(--read-w); }
+.page--read .layout { grid-template-columns: 1fr 320px; padding: 28px 40px; }
+
+.page--pricing { max-width: 1280px; }
+
+/* -------------------------------------------------------------- footer -- */
+
+.site-footer {
+  border-top: 2px solid var(--ink);
+  background: var(--bg-sunken);
+  padding: 22px var(--page-pad);
+}
+.site-footer__top {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+}
+.site-footer__brand {
+  display: flex; flex-direction: column; gap: 6px; max-width: 360px;
+}
+.site-footer__word {
+  font-family: var(--font-serif); font-weight: 700; font-size: 20px;
+}
+.site-footer__word span { color: var(--accent); }
+.site-footer__cols { display: flex; gap: 24px; font-size: 12px; font-weight: 600; }
+.site-footer__col { display: flex; flex-direction: column; gap: 6px; }
+.site-footer__legal {
+  margin-top: 16px; padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--ink-muted);
+}
+
+/* ------------------------------------------------------ mobile tab bar -- */
+
+.tabbar {
+  display: none;
+  position: sticky; bottom: 0; z-index: 30;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+.tabbar a {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 9px 0 12px;
+  font-size: 10.5px;
+  color: var(--ink-muted);
+}
+.tabbar a[aria-current="page"] { color: var(--ink); font-weight: 600; }
+
+/* ---------------------------------------------------------- responsive -- */
+
+/* 900–1280px — the sidebar drops below the main column. */
+@media (max-width: 1280px) {
+  .layout,
+  .layout--lg-sidebar,
+  .page--read .layout { grid-template-columns: 1fr; row-gap: 28px; }
+  .layout__main { border-right: 0; padding-right: 0; }
+  .layout__side {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+}
+
+/* <900px — single column, hamburger nav, bottom tab bar. */
+@media (max-width: 900px) {
+  :root { --page-pad: 16px; }
+
+  .masthead { padding: 16px 0 10px; }
+  .masthead__word { font-size: 30px; }
+  .masthead__sub { font-size: 10px; letter-spacing: .2em; }
+
+  .nav-wrap { display: flex; justify-content: center; padding: 8px var(--page-pad) 0; }
+  .nav-toggle {
+    display: inline-grid; place-items: center;
+    width: 34px; height: 34px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+  }
+  .mainnav {
+    display: none;
+    height: auto; flex-direction: column; align-items: stretch;
+    gap: 0; padding: 4px var(--page-pad) 12px;
+  }
+  .mainnav[data-open="true"] { display: flex; }
+  .mainnav a { padding: 10px 0; border-bottom: 1px solid var(--border-soft); }
+
+  .layout { padding: 20px var(--page-pad); }
+  .layout__side { grid-template-columns: 1fr; }
+
+  .tabbar { display: flex; }
+  .site-footer { padding-bottom: 20px; }
+}
