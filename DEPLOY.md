@@ -29,6 +29,21 @@ GitHub Actions ฟรี **ไม่จำกัดนาที** สำหร�
 
 ---
 
+## ลิงก์ตรงทุกหน้าที่ต้องใช้
+
+แทน `USERNAME` ด้วยชื่อ GitHub ของคุณ
+
+| ทำอะไร | ลิงก์ |
+|---|---|
+| สร้างรีโปใหม่ | <https://github.com/new> |
+| **ตั้งสิทธิ์ให้บอท commit ได้** ⚠️ | `https://github.com/USERNAME/liberatrade/settings/actions` |
+| เปิด/สั่งรัน workflow | `https://github.com/USERNAME/liberatrade/actions` |
+| ดูไฟล์ข้อมูลที่บอทอัปเดต | `https://github.com/USERNAME/liberatrade/blob/main/data/quotes.json` |
+| Cloudflare Dashboard | <https://dash.cloudflare.com> |
+| Z.com จัดการโดเมน | <https://cp-th.cloud.z.com/Domain/> |
+
+---
+
 ## 1. สร้างรีโปแล้ว push
 
 ```bash
@@ -37,6 +52,19 @@ git remote add origin https://github.com/<ชื่อคุณ>/liberatrade.git
 git branch -M main
 git push -u origin main
 ```
+
+### ตั้งค่าตอนสร้างรีโปที่ <https://github.com/new>
+
+| ช่อง | ใส่ |
+|---|---|
+| Repository name | `liberatrade` |
+| Public / Private | **Public** (ดูเหตุผลด้านบน) |
+| Add a README file | **ไม่ต้องติ๊ก** — เรามีอยู่แล้ว |
+| Add .gitignore | **None** — เรามีอยู่แล้ว |
+| Choose a license | ตามใจ |
+
+> ตอน `git push` ครั้งแรก Windows จะเด้งหน้าต่างให้ล็อกอิน GitHub ผ่านเบราว์เซอร์
+> (Git Credential Manager) — ล็อกอินตามปกติ **ไม่ต้องสร้าง token เอง**
 
 > รีโป local สร้างและ commit ไว้แล้ว (`git log` ดูได้)
 > `config.local.json` อยู่ใน `.gitignore` — คีย์ไม่ขึ้นไปแน่นอน
@@ -78,9 +106,21 @@ Cloudflare → **Workers & Pages** → โปรเจกต์ → **Custom dom
 
 Cloudflare จะสร้าง DNS record และออก **SSL ให้ฟรีอัตโนมัติ**
 
-## 5. เปิด GitHub Actions
+## 5. เปิด GitHub Actions + ให้สิทธิ์บอท
 
-รีโปใหม่บางทีต้องกดเปิดก่อน: แท็บ **Actions** → **I understand my workflows, go ahead and enable them**
+**5.1 เปิด Actions** — แท็บ **Actions** → **I understand my workflows, go ahead and enable them**
+
+**5.2 ให้สิทธิ์เขียน (ข้อนี้พลาดบ่อยที่สุด)** ⚠️
+
+ไปที่ `https://github.com/USERNAME/liberatrade/settings/actions`
+เลื่อนลงหา **Workflow permissions** → เลือก
+
+> ⦿ **Read and write permissions**
+
+แล้วกด **Save**
+
+ถ้าไม่ตั้งข้อนี้ workflow จะดึงราคาได้แต่ **push กลับไม่ได้** ขึ้น error
+`Permission to ... denied to github-actions[bot]` แล้วราคาจะไม่อัปเดตบนเว็บเลย
 
 ทดสอบทันทีโดยไม่ต้องรอ cron:
 **Actions** → **Update market quotes** → **Run workflow**
