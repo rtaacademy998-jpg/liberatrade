@@ -119,16 +119,37 @@ def _throttle(min_gap):
     _last_call[0] = time.monotonic()
 
 
-def _get_json(url, headers, min_gap):
-    _throttle(min_gap)
-    req = urllib.request.Request(url, headers=headers)
-    try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as res:
-            return json.loads(res.read().decode("utf-8"))
-    except urllib.error.HTTPError as err:
-        if err.code in (429, 999):
-            raise RateLimited(f"HTTP {err.code} — ถูกจำกัดอัตราการเรียก")
-        raise
+def _get_json(url, headers, min_gap, attempts=3):
+    """
+    GET with a short retry.
+
+    DNS hiccups and 5xx blips are common from cloud runners — a single
+    transient failure was enough to mark a symbol stale for the whole run.
+    Rate limits are NOT retried: repeating them only digs the hole deeper.
+    """
+    last_err = None
+
+    for attempt in range(attempts):
+        _throttle(min_gap)
+        req = urllib.request.Request(url, headers=headers)
+        try:
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as res:
+                return json.loads(res.read().decode("utf-8"))
+
+        except urllib.error.HTTPError as err:
+            if err.code in (429, 999):
+                raise RateLimited(f"HTTP {err.code} — ถูกจำกัดอัตราการเรียก")
+            if err.code < 500:
+                raise                      # 404 and friends will not fix themselves
+            last_err = err
+
+        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as err:
+            last_err = err
+
+        if attempt < attempts - 1:
+            time.sleep(1.5 * (attempt + 1))
+
+    raise RuntimeError(f"ล้มเหลวหลังลอง {attempts} ครั้ง: {type(last_err).__name__} {last_err}")
 
 
 # ----------------------------------------------------------------- yahoo --

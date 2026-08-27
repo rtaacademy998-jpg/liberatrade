@@ -23,9 +23,9 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -49,6 +49,24 @@ jobs:
           git add data/quotes.json data/series.json
           git commit -m "data: quotes $(date -u '+%Y-%m-%d %H:%M') UTC"
 
-          # Another run may have landed while this one was fetching.
-          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+            exit 0
+          fi
+
+          # Someone else pushed while this run was fetching. These files are
+          # generated artifacts, so there is nothing to merge — rewind onto
+          # the new tip and re-fetch. Never rebase them: a conflict would
+          # leave "<<<<<<<" markers inside the JSON the site reads.
+          echo "push rejected - rebuilding on top of the new tip"
+          git fetch origin "${GITHUB_REF_NAME}"
+          git reset --hard "origin/${GITHUB_REF_NAME}"
+
+          python -u tools/fetch_quotes.py --once
+
+          if git diff --quiet -- data/; then
+            echo "already up to date after rewind"
+            exit 0
+          fi
+          git add data/quotes.json data/series.json
+          git commit -m "data: quotes $(date -u '+%Y-%m-%d %H:%M') UTC"
           git push origin "HEAD:${GITHUB_REF_NAME}"
