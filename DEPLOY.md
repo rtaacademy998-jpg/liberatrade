@@ -7,28 +7,6 @@
 
 ---
 
-## ⚠️ ตัดสินใจก่อน 1 ข้อ: รีโปต้องเป็น Public
-
-GitHub Actions ฟรี **ไม่จำกัดนาที** สำหรับรีโป **public**
-แต่รีโป **private** ฟรีแค่ **2,000 นาที/เดือน**
-
-งานเราใช้ ~40 วินาที/รอบ × 288 รอบ/วัน = **~5,800 นาที/เดือน**
-
-| รีโป | ทุก 5 นาที | ค่าใช้จ่าย |
-|---|---|---|
-| **Public** | ✅ ได้ | ฟรี |
-| Private | ❌ เกินโควตา | ~$30/เดือน |
-| Private + ทุก 20 นาที | ✅ ได้ | ฟรี (~1,450 นาที/เดือน) |
-
-**แนะนำ: ตั้งเป็น public** — โค้ดหน้าเว็บเปิดเผยอยู่แล้วโดยธรรมชาติ (เป็น static site
-ใครเปิด DevTools ก็เห็นหมด) และไม่มีคีย์อะไรอยู่ในรีโป (ตรวจแล้ว)
-
-ถ้าอยากให้ private จริง ๆ ให้แก้ `cron` ใน
-[`.github/workflows/update-quotes.yml`](.github/workflows/update-quotes.yml)
-เป็น `*/20 * * * *` แล้วแก้ `refreshSeconds` ใน `tools/fetch_quotes.py` เป็น `1200`
-
----
-
 ## ลิงก์ตรงทุกหน้าที่ต้องใช้
 
 แทน `USERNAME` ด้วยชื่อ GitHub ของคุณ
@@ -106,26 +84,77 @@ Cloudflare → **Workers & Pages** → โปรเจกต์ → **Custom dom
 
 Cloudflare จะสร้าง DNS record และออก **SSL ให้ฟรีอัตโนมัติ**
 
-## 5. เปิด GitHub Actions + ให้สิทธิ์บอท
+## 5. ตัวดึงราคาทุก 5 นาที — Cloudflare Worker
 
-**5.1 เปิด Actions** — แท็บ **Actions** → **I understand my workflows, go ahead and enable them**
+> **ทำไมไม่ใช้ GitHub Actions?** ลองแล้วครับ — cron `*/5` **ไม่ยิงเลยแม้แต่ครั้งเดียวใน 79 นาที**
+> ตั้งค่าถูกหมด (repo public, branch main, workflow active) แต่ GitHub throttle
+> ช่วงสั้น ๆ หนักมาก มันคือ best-effort ไม่ใช่การรับประกัน
+> **Cloudflare cron ยิงตรงเวลาจริง** ตัวดึงราคาจึงย้ายมาที่นี่
+> (workflow บน GitHub ยังอยู่ แต่เป็นปุ่มกดเองเท่านั้น)
 
-**5.2 ให้สิทธิ์เขียน (ข้อนี้พลาดบ่อยที่สุด)** ⚠️
+**ไม่ต้องติดตั้ง Node.js** — ทำผ่านหน้าเว็บ Cloudflare ได้ทั้งหมด
 
-ไปที่ `https://github.com/USERNAME/liberatrade/settings/actions`
-เลื่อนลงหา **Workflow permissions** → เลือก
+### 5.1 สร้างที่เก็บข้อมูล (KV)
 
-> ⦿ **Read and write permissions**
+Cloudflare → **Storage & Databases** → **KV** → **Create instance**
+ตั้งชื่อ `liberatrade-quotes` → **Add**
 
-แล้วกด **Save**
+### 5.2 สร้าง Worker
 
-ถ้าไม่ตั้งข้อนี้ workflow จะดึงราคาได้แต่ **push กลับไม่ได้** ขึ้น error
-`Permission to ... denied to github-actions[bot]` แล้วราคาจะไม่อัปเดตบนเว็บเลย
+**Workers & Pages** → **Create** → แท็บ **Workers** → **Start with Hello World** → ตั้งชื่อ
+`liberatrade-quotes` → **Deploy** → กด **Edit code**
 
-ทดสอบทันทีโดยไม่ต้องรอ cron:
-**Actions** → **Update market quotes** → **Run workflow**
+ลบโค้ดตัวอย่างทิ้งทั้งหมด แล้ววางเนื้อไฟล์ [`worker/src/index.js`](worker/src/index.js)
+ลงไปแทน → **Deploy**
 
-ถ้าสำเร็จจะเห็น commit ใหม่ชื่อ `data: quotes ... UTC` แล้ว Cloudflare จะ deploy เองภายใน ~1 นาที
+### 5.3 ผูก KV เข้ากับ Worker
+
+Worker → **Settings** → **Bindings** → **Add** → **KV namespace**
+
+| ช่อง | ใส่ |
+|---|---|
+| Variable name | `QUOTES` |
+| KV namespace | `liberatrade-quotes` |
+
+### 5.4 ตั้งรหัสสำหรับสั่งรีเฟรชเอง
+
+Worker → **Settings** → **Variables and Secrets** → **Add** → ชนิด **Secret**
+
+| ช่อง | ใส่ |
+|---|---|
+| Name | `REFRESH_TOKEN` |
+| Value | สุ่มยาว ๆ เช่น `lib-9f3a7c2e8b4d` |
+
+### 5.5 ตั้ง cron ทุก 5 นาที
+
+Worker → **Settings** → **Trigger Events** → **Add** → **Cron Trigger**
+ใส่ `*/5 * * * *` → **Add**
+
+### 5.6 ดึงข้อมูลรอบแรกทันที (ไม่ต้องรอ cron)
+
+เปิดในเบราว์เซอร์ (เปลี่ยน token เป็นของคุณ):
+
+```
+https://liberatrade-quotes.<ชื่อบัญชี>.workers.dev/data/refresh?token=lib-9f3a7c2e8b4d
+```
+
+ควรได้ `{"updated": 19, "total": 19, "failures": []}`
+
+เช็กสุขภาพได้ที่ `/data/health` — ต้องได้ `"ok": true` และ `"symbols": 19`
+
+### 5.7 ให้เว็บอ่านจาก Worker
+
+หลังโดเมนอยู่บน Cloudflare แล้ว (ข้อ 3–4)
+
+Worker → **Settings** → **Domains & Routes** → **Add** → **Route**
+
+| ช่อง | ใส่ |
+|---|---|
+| Route | `liberatrade.com/data/*` |
+| Zone | `liberatrade.com` |
+
+Route ของ Worker จะมาก่อน Pages เสมอ ดังนั้น `/data/*` จะถูกเสิร์ฟจาก KV (สดทุก 5 นาที)
+ส่วนไฟล์ `data/*.json` ในรีโปกลายเป็นแค่ค่าสำรองตอนยังไม่มี Worker
 
 ---
 
@@ -136,21 +165,21 @@ Cloudflare จะสร้าง DNS record และออก **SSL ให้�
 | เปิด <https://liberatrade.com> | หน้าแรกขึ้นครบ มีราคาจริง |
 | มุมขวาบน | จุดเขียว + เวลาอัปเดต |
 | รอ 5 นาที | เวลาเปลี่ยนเอง ราคาที่ขยับกะพริบ |
-| แท็บ Actions บน GitHub | มี run ใหม่ทุก ~5 นาที |
+| `https://liberatrade.com/data/health` | `"ok": true`, `"symbols": 19`, `ageMinutes` < 5 |
 | `https://liberatrade.com/data/quotes.json` | `asOf` เป็นเวลาไม่กี่นาทีที่แล้ว |
+| Worker → **Logs** | มี log `refreshed 19/19` ทุก 5 นาที |
 
 ---
 
 ## ข้อควรรู้
 
-**cron ของ GitHub ไม่ตรงเป๊ะ** — เป็น best-effort ช่วงที่คนใช้เยอะอาจช้าไป 10–15 นาที
-หน้าเว็บแสดงเวลาอัปเดตล่าสุดเสมอ ผู้ใช้จึงเห็นได้เองว่าข้อมูลเก่าแค่ไหน
+**โควตา Cloudflare ฟรี** — Workers ฟรี 100,000 requests/วัน · cron 288 ครั้ง/วันใช้แค่ 288
+ที่เหลือเป็นคนเข้าเว็บ เหลือเฟือ
 
-**Actions หยุดเองถ้ารีโปเงียบ 60 วัน** — แต่บอทเรา commit ทุก 5 นาที ถือเป็น activity
-จึงไม่มีปัญหา
+**ดึงพลาดบางตัว = คงราคาเดิม** — ตัวนั้นจะติดธง `stale` แต่ราคายังอยู่บนจอ
+ดูได้จาก `/data/health` ว่ามีตัวไหน stale บ้าง
 
-**ตลาดปิด = ไม่มี commit** — workflow ตรวจก่อนว่าข้อมูลเปลี่ยนจริงไหม
-ถ้าไม่เปลี่ยนจะข้าม ไม่ commit เปล่า ๆ ให้ deploy ซ้ำ
+**Worker มี retry 3 ครั้ง** ต่อสินทรัพย์ เพราะ gold-api เคยล้มชั่วคราวบนคลาวด์
 
 **`_headers` สำคัญมาก** — สั่งไม่ให้ Cloudflare cache ไฟล์ `data/*`
 ถ้าลบไฟล์นี้ ราคาจะค้างเพราะ CDN cache ไว้

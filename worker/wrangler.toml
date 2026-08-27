@@ -1,0 +1,30 @@
+# Cloudflare Worker — Libera Analysts quote updater
+#
+# Why this exists: GitHub Actions' cron is best-effort and was not firing a
+# */5 schedule at all (79 minutes, zero scheduled runs). Cloudflare's cron
+# triggers actually run on time, so the quote refresh lives here instead.
+#
+# Deploy:
+#   npx wrangler kv namespace create QUOTES     -> paste the id below
+#   npx wrangler secret put REFRESH_TOKEN       -> any long random string
+#   npx wrangler deploy
+
+name = "liberatrade-quotes"
+main = "src/index.js"
+compatibility_date = "2026-08-27"
+
+# Every 5 minutes, on the dot.
+[triggers]
+crons = ["*/5 * * * *"]
+
+# Holds the built quotes.json / series.json payloads.
+[[kv_namespaces]]
+binding = "QUOTES"
+id = "PASTE_KV_NAMESPACE_ID_HERE"
+
+# Serve the data paths from the Worker; Pages serves everything else.
+# Add these in the Cloudflare dashboard after the domain is on Cloudflare,
+# or uncomment once the zone exists.
+# [[routes]]
+# pattern = "liberatrade.com/data/*"
+# zone_name = "liberatrade.com"

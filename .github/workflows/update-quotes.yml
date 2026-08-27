@@ -1,13 +1,18 @@
 name: Update market quotes
 
-# Every 5 minutes. GitHub's scheduler is best-effort — under load a run can
-# start late (sometimes 10-15 min), so treat 5 minutes as the target, not a
-# guarantee. The page always shows its own "last updated" stamp, so a late
-# run is visible rather than silently stale.
+# MANUAL ONLY — the live 5-minute refresh runs on Cloudflare (worker/).
+#
+# The schedule used to live here and was removed after measuring it: a
+# "*/5 * * * *" cron produced ZERO scheduled runs in 79 minutes on this
+# repo. GitHub's scheduler is best-effort and throttles short intervals
+# hard, so it cannot deliver "every 5 minutes". Cloudflare cron triggers
+# fire on time, so the updater moved there.
+#
+# This workflow stays as a manual escape hatch: it refreshes the committed
+# data/*.json (the fallback the site ships with) when you want a fresh
+# snapshot in the repo.
 on:
-  schedule:
-    - cron: "*/5 * * * *"
-  workflow_dispatch:        # lets you trigger a refresh by hand
+  workflow_dispatch:
 
 # Only one refresh at a time; a slow run must not stack up behind the next.
 concurrency:
