@@ -4,7 +4,9 @@
 พร้อมระบบสมาชิก 3 ระดับ
 
 สร้างจาก design handoff ใน [`design_handoff_libera_analysts/`](design_handoff_libera_analysts/README.md)
-โดเมนที่จองไว้: **Liberatrade.com** · แบรนด์ในดีไซน์: **libera.co**
+โดเมนที่จองไว้: **Liberatrade.com** (จดที่ Z.com by GMO) · แบรนด์ในดีไซน์: **libera.co**
+
+**ขึ้นเว็บจริง → อ่าน [DEPLOY.md](DEPLOY.md)**
 
 ---
 
@@ -232,4 +234,4 @@ screenshot ไม่ได้ รบกวนเปิดดูจริงอ�
 - [ ] หน้า Watchlist เต็ม, Screener, ปฏิทินเศรษฐกิจเต็ม
 - [ ] ภาพจริงแทนบล็อกลายทแยง (`.ph`) — ขนาดในโค้ดมีผลต่อ layout
 - [ ] self-host ฟอนต์
-- [ ] deploy ขึ้น Liberatrade.com
+- [x] เตรียม deploy ขึ้น Liberatrade.com — ดู [DEPLOY.md](DEPLOY.md)
